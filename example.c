@@ -1,4 +1,3 @@
-#define MINEX_DEFINE_IMPLEMENTATION
 #include "minex.h"
 
 #include <stdbool.h>
@@ -51,18 +50,18 @@ void some_method(int p)
 int main(void)
 {
     MINEX_TRY({
-        some_method(11);
+        some_method(1);
     })
     MINEX_CATCH(MINEX_EXCEPTION_TYPE_EXAMPLE_FILE_NOT_FOUND, {
         printf("Oh my God! We did not find the file\n");
-        minex_free_exception(minex_most_recent, true); 
+        minex_free_exception(minex_get_most_recent(), true); 
     })
     MINEX_CATCH(MINEX_EXCEPTION_TYPE_EXAMPLE_NETWORK_ERROR, {
-        printf("Random network error %s\n", (char*)minex_most_recent->payload);
-        minex_free_exception(minex_most_recent, true);
+        printf("Random network error %s\n", (char*)minex_get_most_recent()->payload);
+        minex_free_exception(minex_get_most_recent(), true);
     })
     MINEX_CATCHALL({
         printf("Exception occured!");
-        minex_free_exception(minex_most_recent, true);
+        minex_free_exception(minex_get_most_recent(), true);
     })
 }
